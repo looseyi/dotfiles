@@ -9,6 +9,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
+Plugin 'mattn/emmet-vim'
 
 " Elixir syntax
 " Plugin 'elixir-lang/vim-elixir'
