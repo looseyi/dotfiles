@@ -2,6 +2,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 " Change mapleader
 let mapleader=","
+let g:mapleader = ','
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -9,7 +10,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'mattn/emmet-vim'
 
 " Elixir syntax
 " Plugin 'elixir-lang/vim-elixir'
@@ -19,6 +19,10 @@ Plugin 'SirVer/ultisnips'
 
 " " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
+
+Plugin 'Markdown'
+Plugin 'mattn/emmet-vim'
+
 
 " " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
@@ -116,9 +120,17 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 " Use the Solarized Dark theme
-set background=light
+syntax enable
+if has('gui_running')
+  set background=light
+else
+  se background=dark
+endif
 colorscheme solarized
-let g:solarized_termtrans=1
+" colorscheme molokai
+" colorscheme desert"
+" colorscheme koehler
+let g:solarized_termtrans=256
 
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
@@ -198,6 +210,9 @@ set showcmd
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
 
+" set vim autocomplete action as IDE "
+set completeopt=longest,menu
+
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
 	let save_cursor = getpos(".")
@@ -274,3 +289,71 @@ noremap <leader>ehp :! open https://hex.pm<CR>
 
 noremap <leader>gh :! open https://github.com<CR>
 
+
+" force forbid arrow keys "
+map <Left> <Nop>
+map <Right> <Nop>
+map <Up> <Nop>
+map <Down> <Nop>
+
+" Map ; to : and save a million keystrokes 用于快速进入命令行
+nnoremap ; :
+
+" Go to home and end using capitalized directions
+noremap H ^
+noremap L $
+
+" 分屏窗口移动, Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <Leader>z :ZoomToggle<CR>
+
+" 命令行模式增强，ctrl - a到行首， -e 到行尾
+cnoremap <C-j> <t_kd>
+cnoremap <C-k> <t_ku>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
+
+" tab 操作
+" http://vim.wikia.com/wiki/Alternative_tab_navigation
+" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
+
+" tab切换
+map <leader>th :tabfirst<cr>
+map <leader>tl :tablast<cr>
+
+map <leader>tj :tabnext<cr>
+map <leader>tk :tabprev<cr>
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprev<cr>
+
+map <leader>te :tabedit<cr>
+map <leader>td :tabclose<cr>
+map <leader>tm :tabm<cr>
+
+" => 选中及操作改键
+
+" 调整缩进后自动选中，方便再次操作
+vnoremap < <gv
+vnoremap > >gv
+
+" kj 替换 Esc
+inoremap kj <Esc>
