@@ -51,3 +51,6 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 if [ -f $DOTFILES/liquidprompt/liquidprompt  ]; then
 	. $DOTFILES/liquidprompt/liquidprompt
 fi
+
+alias vi='mvim -v'
+alias vim='mvim -v'
